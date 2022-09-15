@@ -13,6 +13,8 @@
             <p>@item.Description</p>
             <p>@item.TaskPriority</p>
             <p>@item.Created</p>
+            <a asp-page="">Complete</a>
+            <a asp-route-guid="@item.GUID" asp-page="EditTask">Edit</a>
         </div>
     }
 </div>
