@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
+using System.ComponentModel.DataAnnotations;
 using ToDo.Models;
 using ToDo.Repository;
 
@@ -10,15 +11,20 @@ namespace ToDo.Pages
     {
         private readonly ITaskRepo _repo;
         public List<ToDoTask> ToDoTasks { get; set; }
-        [BindProperty]
+
+        [BindProperty, Required]
         public string GUID { get; set; }
-        [BindProperty]
+
+        [BindProperty, MaxLength(25, ErrorMessage = "Max 25 characters"), Required]
         public string Title { get; set; }
-        [BindProperty]
+
+        [BindProperty, MaxLength(25, ErrorMessage = "Max 25 characters"), Required]
         public string Description { get; set; }
-        [BindProperty]
+
+        [BindProperty, Range(0, 2), Required]
         public int Priority { get; set; }
-        [BindProperty]
+
+        [BindProperty, Required]
         public bool IsCompleted { get; set; }
 
         public IndexModel(ITaskRepo repo)
@@ -32,22 +38,39 @@ namespace ToDo.Pages
 
         }
 
-        public IActionResult OnPostEdit()
-        {
-            _repo.EditTask(GUID, Title, Description, Priority, IsCompleted);
-            return RedirectToPage();
-        }
-
         public IActionResult OnPostAdd()
         {
-            _repo.AddTask(Title, Description, Priority);
-            return RedirectToPage();
+            if (!string.IsNullOrEmpty(Title) && !string.IsNullOrEmpty(Description))
+            {
+
+                if (Title.Length <= 25 && Description.Length <= 25)
+                {
+                    _repo.AddTask(Title, Description, Priority);
+                    return RedirectToPage();
+                }
+            }
+            return Page();
         }
+
+        public IActionResult OnPostEdit()
+        {
+            if (Title.Length <= 25 && Description.Length <= 25 && !string.IsNullOrEmpty(GUID))
+            {
+                _repo.EditTask(GUID, Title, Description, Priority, IsCompleted);
+                return RedirectToPage();
+            }
+            return Page();
+        }
+
 
         public IActionResult OnPostComplete()
         {
-            _repo.CompleteTask(GUID);
-            return RedirectToPage();
+            if (!string.IsNullOrEmpty(GUID))
+            {
+                _repo.CompleteTask(GUID);
+                return RedirectToPage();
+            }
+            return Page();
         }
     }
 }
