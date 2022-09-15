@@ -8,13 +8,83 @@
 <div>
     @foreach (ToDoTask item in Model.ToDoTasks)
     {
-        <div>
-            <p>@item.Title</p>
-            <p>@item.Description</p>
-            <p>@item.TaskPriority</p>
-            <p>@item.Created</p>
-            <a asp-page="">Complete</a>
-            <a asp-route-guid="@item.GUID" asp-page="EditTask">Edit</a>
-        </div>
+        @if (!item.IsCompleted)
+        {
+            <div>
+                <p>@item.Title</p>
+                <p>@item.Description</p>
+                <p>@item.TaskPriority</p>
+                <p>@item.Created</p>
+                <form method="post" asp-page-handler="Complete">
+                    <input hidden value="@item.GUID" asp-for="GUID">
+                    <button type="submit">Complete</button>
+                </form>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditTaskModal">Edit</button>
+
+                <!-- EditTaskModal -->
+                <div class="modal fade" id="EditTaskModal" tabindex="-1" aria-labelledby="EditTaskModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form method="post" asp-page-handler="Edit">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="EditTaskModalLabel">Edit Task</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="text" hidden value="@item.GUID" asp-for="GUID" />
+                                    <p>Title: </p>
+                                    <input type="text" asp-for="Title" />
+                                    <p>Description: </p>
+                                    <input type="text" asp-for="Description" />
+                                    <p>Priority: </p>
+                                    <select asp-for="Priority">
+                                        <option value="0">Low</option>
+                                        <option value="1" selected>Normal</option>
+                                        <option value="2">High</option>
+                                    </select>
+                                    <p>Completed: </p>
+                                    <input type="checkbox" asp-for="IsCompleted" />
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        }
     }
+</div>
+
+<!-- NewTaskModal -->
+<div class="modal fade" id="NewTaskModal" tabindex="-1" aria-labelledby="NewTaskModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-page-handler="Add">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="NewTaskModalLabel">New Task</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Title: </p>
+                    <input type="text" asp-for="Title" />
+                    <p>Description: </p>
+                    <input type="text" asp-for="Description" />
+                    <p>Priority: </p>
+                    <select asp-for="Priority">
+                        <option value="0">Low</option>
+                        <option value="1" selected>Normal</option>
+                        <option value="2">High</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add task</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

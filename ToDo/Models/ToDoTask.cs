@@ -9,7 +9,7 @@
         public Priority TaskPriority { get; set; }
         public bool IsCompleted { get; set; }
 
-        public enum Priority { Low, Normal, High}
+        public enum Priority { Low, Normal, High }
 
         public ToDoTask(string title, string description, Priority priority)
         {
