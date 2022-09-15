@@ -11,13 +11,13 @@
 
         public enum Priority { Low, Normal, High}
 
-        public ToDoTask(string title, string description)
+        public ToDoTask(string title, string description, Priority priority)
         {
             GUID = Guid.NewGuid();
             Created = DateTime.Now;
             Title = title;
             Description = description;
-            TaskPriority = Priority.Normal;
+            TaskPriority = priority;
             IsCompleted = false;
         }
     }

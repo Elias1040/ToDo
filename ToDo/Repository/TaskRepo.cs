@@ -11,7 +11,7 @@ namespace ToDo.Repository
             _toDoTasks = new List<ToDoTask>();
         }
 
-        public void AddTask(string title, string description) => _toDoTasks.Add(new(title, description));
+        public void AddTask(string title, string description, int priority) => _toDoTasks.Add(new(title, description, (ToDoTask.Priority)priority));
 
         public ToDoTask? GetTask(string guid) => _toDoTasks.Find(task => task.GUID.ToString() == guid);
 
