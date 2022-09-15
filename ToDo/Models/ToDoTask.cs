@@ -1,6 +1,6 @@
 ﻿namespace ToDo.Models
 {
-    public class ToDoTask
+    public record ToDoTask
     {
         public Guid GUID { get; set; }
         public string Title { get; set; }

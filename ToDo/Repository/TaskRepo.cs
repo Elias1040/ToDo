@@ -15,6 +15,8 @@ namespace ToDo.Repository
 
         public ToDoTask? GetTask(string guid) => _toDoTasks.Find(task => task.GUID.ToString() == guid);
 
+        public List<ToDoTask> GetAllTasks() => _toDoTasks;
+
         public void EditTask(string guid, string title, string description, int priority, bool isCompleted)
         {
             ToDoTask? task = GetTask(guid);
@@ -25,5 +27,8 @@ namespace ToDo.Repository
         }
 
         public void DeleteTask(string guid) => _toDoTasks.Remove(GetTask(guid));
+
+        public void CompleteTask(string guid) => GetTask(guid).IsCompleted = true;
+
     }
 }

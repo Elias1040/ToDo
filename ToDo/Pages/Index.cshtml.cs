@@ -1,15 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ToDo.Models;
+using ToDo.Repository;
 
 namespace ToDo.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly ITaskRepo _repo;
+        public List<ToDoTask> ToDoTasks { get; set; }
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(ITaskRepo repo)
         {
-            _logger = logger;
+            _repo = repo;
+            ToDoTasks = repo.GetAllTasks();
         }
 
         public void OnGet()

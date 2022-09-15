@@ -1,7 +1,9 @@
+using ToDo.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages().Services.AddSingleton<ITaskRepo, TaskRepo>();
 
 var app = builder.Build();
 
