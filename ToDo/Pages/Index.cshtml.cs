@@ -16,10 +16,10 @@ namespace ToDo.Pages
         public string GUID { get; set; }
 
         [BindProperty, MaxLength(25, ErrorMessage = "Max 25 characters"), Required]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         [BindProperty, MaxLength(25, ErrorMessage = "Max 25 characters"), Required]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [BindProperty, Range(0, 2), Required]
         public int Priority { get; set; }
@@ -40,7 +40,7 @@ namespace ToDo.Pages
 
         public IActionResult OnPostAdd()
         {
-            if (!string.IsNullOrEmpty(Title) && !string.IsNullOrEmpty(Description))
+            if (!string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Description))
             {
 
                 if (Title.Length <= 25 && Description.Length <= 25)
@@ -54,7 +54,7 @@ namespace ToDo.Pages
 
         public IActionResult OnPostEdit()
         {
-            if (Title.Length <= 25 && Description.Length <= 25 && !string.IsNullOrEmpty(GUID))
+            if ((string.IsNullOrWhiteSpace(Title) && string.IsNullOrWhiteSpace(Description)) || Title?.Length <= 25 && Description?.Length <= 25 && !string.IsNullOrWhiteSpace(GUID))
             {
                 _repo.EditTask(GUID, Title, Description, Priority, IsCompleted);
                 return RedirectToPage();
@@ -65,7 +65,7 @@ namespace ToDo.Pages
 
         public IActionResult OnPostComplete()
         {
-            if (!string.IsNullOrEmpty(GUID))
+            if (!string.IsNullOrWhiteSpace(GUID))
             {
                 _repo.CompleteTask(GUID);
                 return RedirectToPage();

@@ -23,112 +23,139 @@
             </div>
         </nav>
         <div id="Pending">
-            <h3>Pending Tasks</h3>
-            @foreach (ToDoTask item in Model.ToDoTasks)
-            {
-                @if (!item.IsCompleted)
+            <h3 class="mt-4 mb-4">Pending Tasks</h3>
+            <div class="d-flex flex-wrap gap-4">
+                @foreach (ToDoTask item in Model.ToDoTasks)
                 {
-                    <div>
-                        <p>@item.Title</p>
-                        <p>@item.Description</p>
-                        <p>@item.TaskPriority</p>
-                        <p>@item.Created</p>
-                        <form method="post" asp-page-handler="Complete">
-                            <input hidden value="@item.GUID" asp-for="GUID">
-                            <button type="submit">Complete</button>
-                        </form>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditTaskModal">Edit</button>
+                    @if (!item.IsCompleted)
+                    {
+                        <div class="card border border-2 shadow border-dark" style="width: 18%;">
+                            <div class="card-header @item.TaskPriority">
+                                <h5 class="card-title text-white text-center">@item.Title</h5>
+                            </div>
+                            <div class="card-body text-center">
+                                <p>@item.Description</p>
+                                <h5><span class="badge @item.TaskPriority">@item.TaskPriority</span></h5>
+                                <p>@item.Created.ToString("d")</p>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between">
+                                <form class="d-inline-block" method="post" asp-page-handler="Complete">
+                                    <input hidden value="@item.GUID" asp-for="GUID">
+                                    <button type="submit" class="btn btn-success">Complete</button>
+                                </form>
+                                <button type="button" class="btn btn-outline-warning text-black d-inline-block col-5" data-bs-toggle="modal" data-bs-target="#EditTaskModal">Edit</button>
+                            </div>
 
-                        <!-- EditTaskModal -->
-                        <div class="modal fade" id="EditTaskModal" tabindex="-1" aria-labelledby="EditTaskModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form method="post" asp-page-handler="Edit">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="EditTaskModalLabel">Edit Task</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <input type="text" hidden value="@item.GUID" asp-for="GUID" />
-                                            <p>Title: </p>
-                                            <input type="text" asp-for="Title" />
-                                            <p>Description: </p>
-                                            <input type="text" asp-for="Description" />
-                                            <p>Priority: </p>
-                                            <select asp-for="Priority">
-                                                <option value="0">Low</option>
-                                                <option value="1" selected>Normal</option>
-                                                <option value="2">High</option>
-                                            </select>
-                                            <p>Completed: </p>
-                                            <input type="checkbox" asp-for="IsCompleted" />
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                            <button type="submit" class="btn btn-primary">Save changes</button>
-                                        </div>
-                                    </form>
+                            <!-- EditTaskModal -->
+                            <div class="modal fade" id="EditTaskModal" tabindex="-1" aria-labelledby="EditTaskModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form method="post" asp-page-handler="Edit">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="EditTaskModalLabel">Edit Task</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input type="text" hidden value="@item.GUID" asp-for="GUID" />
+                                                <div class="mb-2">
+                                                    <label for="pEditTitle" class="form-label">Title: </label>
+                                                    <input id="pEditTitle" class="form-control" type="text" asp-for="Title" />
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="pEditDesc" class="form-label">Description: </label>
+                                                    <input id="pEditDesc" class="form-control type="text" asp-for="Description" />
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="pEditPrior" class="form-label">Priority: </label>
+                                                    <select id="pEditPrior" class="form-select" asp-for="Priority">
+                                                        <option value="0">Low</option>
+                                                        <option value="1" selected>Normal</option>
+                                                        <option value="2">High</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-check mt-3">
+                                                    <label for="cEditComp" class="form-check-label">Completed: </label>
+                                                    <input id="cEditComp" class="form-check-input" type="checkbox" asp-for="IsCompleted" />
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                    </div>
+                        </div>
+                    }
                 }
-            }
+            </div>
         </div>
         <div hidden id="Completed">
-            <h3>Completed Tasks</h3>
-            @foreach (ToDoTask item in Model.ToDoTasks)
-            {
-                @if (item.IsCompleted)
+            <h3 class="mt-4 mb-4">Completed Tasks</h3>
+            <div class="d-flex gap-4">
+                @foreach (ToDoTask item in Model.ToDoTasks)
                 {
-                    <div>
-                        <p>@item.Title</p>
-                        <p>@item.Description</p>
-                        <p>@item.TaskPriority</p>
-                        <p>@item.Created</p>
-                        <form method="post" asp-page-handler="Complete">
-                            <input hidden value="@item.GUID" asp-for="GUID">
-                            <button type="submit">Complete</button>
-                        </form>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditTaskModal">Edit</button>
+                    @if (item.IsCompleted)
+                    {
+                        <div class="card border border-2 border-dark shadow" style="width: 18%;">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="card-title text-center">@item.Title</h5>
+                            </div>
+                            <div class="card-body text-center">
+                                <p>@item.Description</p>
+                                <h5><span class="badge @item.TaskPriority">@item.TaskPriority</span></h5>
+                                <p>@item.Created.ToString("d")</p>
+                            </div>
+                            <div class="card-footer d-flex justify-content-end">
+                                <button type="button" class="btn btn-outline-warning text-black col-6 d-inline-block" data-bs-toggle="modal" data-bs-target="#EditTaskModal">Edit</button>
+                            </div>
 
-                        <!-- EditTaskModal -->
-                        <div class="modal fade" id="EditTaskModal" tabindex="-1" aria-labelledby="EditTaskModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form method="post" asp-page-handler="Edit">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="EditTaskModalLabel">Edit Task</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <input type="text" hidden value="@item.GUID" asp-for="GUID" />
-                                            <p>Title: </p>
-                                            <input type="text" asp-for="Title" />
-                                            <p>Description: </p>
-                                            <input type="text" asp-for="Description" />
-                                            <p>Priority: </p>
-                                            <select asp-for="Priority">
-                                                <option value="0">Low</option>
-                                                <option value="1" selected>Normal</option>
-                                                <option value="2">High</option>
-                                            </select>
-                                            <p>Completed: </p>
-                                            <input type="checkbox" asp-for="IsCompleted" />
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                            <button type="submit" class="btn btn-primary">Save changes</button>
-                                        </div>
-                                    </form>
+                            <!-- EditTaskModal -->
+                            <div class="modal fade" id="EditTaskModal" tabindex="-1" aria-labelledby="EditTaskModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form method="post" asp-page-handler="Edit">
+                                            <div class="modal-header text-center">
+                                                <h4 class="modal-title" id="EditTaskModalLabel">Edit Task</h4>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input type="text" hidden value="@item.GUID" asp-for="GUID" />
+                                                <div class="mb-2">
+                                                    <label for="cEditTitle" class="form-label">Title: </label>
+                                                    <input id="cEditTitle" class="form-control" type="text" asp-for="Title" />
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="cEditDesc" class="form-label">Description: </label>
+                                                    <input id="cEditDesc" class="form-control type="text" asp-for="Description" />
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="cEditPrior" class="form-label">Priority: </label>
+                                                    <select id="cEditPrior" class="form-select" asp-for="Priority">
+                                                        <option value="0">Low</option>
+                                                        <option value="1" selected>Normal</option>
+                                                        <option value="2">High</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-check mt-3">
+                                                    <label for="cEditComp" class="form-check-label">Completed: </label>
+                                                    <input id="cEditComp" class="form-check-input" type="checkbox" checked asp-for="IsCompleted" />
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                    </div>
+                    }
                 }
-            }
+            </div>
         </div>
     </div>
 </div>
@@ -143,18 +170,22 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Title: </p>
-                    <input type="text" asp-for="Title" required />
-                    <span asp-validation-for="Title"></span>
-                    <p>Description: </p>
-                    <input type="text" asp-for="Description" required/>
-                    <span asp-validation-for="Description"></span>
-                    <p>Priority: </p>
-                    <select asp-for="Priority">
-                        <option value="0">Low</option>
-                        <option value="1" selected>Normal</option>
-                        <option value="2">High</option>
-                    </select>
+                    <div class="mb-2">
+                        <label for="addTitle" class="form-label">Title: </label>
+                        <input id="addTitle" class="form-control" type="text" asp-for="Title" />
+                    </div>
+                    <div class="mb-2">
+                        <label for="addDesc" class="form-label">Description: </label>
+                        <input id="addDesc" class="form-control type="text" asp-for="Description" />
+                    </div>
+                    <div class="mb-2">
+                        <label for="addPrior" class="form-label">Priority: </label>
+                        <select id="addPrior" class="form-select" asp-for="Priority">
+                            <option value="0">Low</option>
+                            <option value="1" selected>Normal</option>
+                            <option value="2">High</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

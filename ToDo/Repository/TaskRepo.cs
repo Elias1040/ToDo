@@ -20,8 +20,8 @@ namespace ToDo.Repository
         public void EditTask(string guid, string title, string description, int priority, bool isCompleted)
         {
             ToDoTask? task = GetTask(guid);
-            task.Title = !string.IsNullOrEmpty(title) ? title : task.Title;
-            task.Description = !string.IsNullOrEmpty(description) ? description : task.Description;
+            task.Title = !string.IsNullOrWhiteSpace(title) ? title : task.Title;
+            task.Description = !string.IsNullOrWhiteSpace(description) ? description : task.Description;
             task.TaskPriority = (ToDoTask.Priority)priority;
             task.IsCompleted = isCompleted;
         }

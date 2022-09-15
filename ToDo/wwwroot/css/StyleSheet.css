@@ -1,0 +1,14 @@
+﻿body {
+}
+
+.Low {
+    background-color: green;
+}
+
+.Normal {
+    background-color: #ff9900;
+}
+
+.High {
+    background-color: red;
+}
