@@ -15,11 +15,11 @@ namespace ToDo.Pages
         [BindProperty, Required]
         public string GUID { get; set; }
 
-        [BindProperty, MaxLength(25, ErrorMessage = "Max 25 characters"), Required]
-        public string? Title { get; set; }
+        [BindProperty, MaxLength(25)]
+        public string Title { get; set; }
 
-        [BindProperty, MaxLength(25, ErrorMessage = "Max 25 characters"), Required]
-        public string? Description { get; set; }
+        [BindProperty, MaxLength(25)]
+        public string Description { get; set; }
 
         [BindProperty, Range(0, 2), Required]
         public int Priority { get; set; }
@@ -54,7 +54,24 @@ namespace ToDo.Pages
 
         public IActionResult OnPostEdit()
         {
-            if ((string.IsNullOrWhiteSpace(Title) && string.IsNullOrWhiteSpace(Description)) || Title?.Length <= 25 && Description?.Length <= 25 && !string.IsNullOrWhiteSpace(GUID))
+            if (!(string.IsNullOrWhiteSpace(Title) | string.IsNullOrWhiteSpace(Description)) && (Title?.Length <= 25 && Description?.Length <= 25))
+            {
+                _repo.EditTask(GUID, Title, Description, Priority, IsCompleted);
+                return RedirectToPage();
+            }
+            else if (string.IsNullOrWhiteSpace(Title) && string.IsNullOrWhiteSpace(Description))
+            {
+                _repo.EditTask(GUID, Title, Description, Priority, IsCompleted);
+                return RedirectToPage();
+
+            }
+            else if (!string.IsNullOrWhiteSpace(Title) && Title.Length <= 25)
+            {
+                _repo.EditTask(GUID, Title, Description, Priority, IsCompleted);
+                return RedirectToPage();
+
+            }
+            else if (!string.IsNullOrWhiteSpace(Description) && Description.Length <= 25)
             {
                 _repo.EditTask(GUID, Title, Description, Priority, IsCompleted);
                 return RedirectToPage();
@@ -71,6 +88,12 @@ namespace ToDo.Pages
                 return RedirectToPage();
             }
             return Page();
+        }
+
+        public IActionResult OnPostDelete()
+        {
+            _repo.DeleteTask(GUID);
+            return RedirectToPage();
         }
     }
 }

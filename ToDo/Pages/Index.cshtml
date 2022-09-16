@@ -5,6 +5,7 @@
     ViewData["Title"] = "Home page";
 }
 
+
 <div class="container">
     <div class="row">
         <nav class="navbar navbar-expand-lg bg-dark">
@@ -29,8 +30,16 @@
                 {
                     @if (!item.IsCompleted)
                     {
-                        <div class="card border border-2 shadow border-dark" style="width: 18%;">
-                            <div class="card-header @item.TaskPriority">
+                        <div class="card border border-2 shadow-lg border-dark" style="width: 18%;">
+                            <div class="card-header w-100 @item.TaskPriority">
+                                <form asp-page-handler="Delete" method="post">
+                                    <input hidden asp-for="GUID" value="@item.GUID" />
+                                    <button type="submit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                                        </svg>
+                                    </button>
+                                </form>
                                 <h5 class="card-title text-white text-center">@item.Title</h5>
                             </div>
                             <div class="card-body text-center">
@@ -41,9 +50,9 @@
                             <div class="card-footer d-flex justify-content-between">
                                 <form class="d-inline-block" method="post" asp-page-handler="Complete">
                                     <input hidden value="@item.GUID" asp-for="GUID">
-                                    <button type="submit" class="btn btn-success">Complete</button>
+                                    <button type="submit" class="btn btn-outline-dark text-white @item.TaskPriority">Complete</button>
                                 </form>
-                                <button type="button" class="btn btn-outline-warning text-black d-inline-block col-5" data-bs-toggle="modal" data-bs-target="#EditTaskModal">Edit</button>
+                                <button type="button" class="btn btn-outline-warning text-black d-inline-block col-5 " data-bs-toggle="modal" data-bs-target="#EditTaskModal">Edit</button>
                             </div>
 
                             <!-- EditTaskModal -->
@@ -56,7 +65,7 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <input type="text" hidden value="@item.GUID" asp-for="GUID" />
+                                                <input hidden value="@item.GUID" asp-for="GUID" />
                                                 <div class="mb-2">
                                                     <label for="pEditTitle" class="form-label">Title: </label>
                                                     <input id="pEditTitle" class="form-control" type="text" asp-for="Title" />
@@ -79,7 +88,7 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                                                 <button type="submit" class="btn btn-primary">Save changes</button>
                                             </div>
                                         </form>
@@ -100,12 +109,20 @@
                     @if (item.IsCompleted)
                     {
                         <div class="card border border-2 border-dark shadow" style="width: 18%;">
-                            <div class="card-header bg-primary text-white">
-                                <h5 class="card-title text-center">@item.Title</h5>
+                            <div class="card-header bg-primary text-white ">
+                                <form asp-page-handler="Delete" method="post">
+                                    <input hidden asp-for="GUID" value="@item.GUID" />
+                                    <button type="submit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                                        </svg>
+                                    </button>
+                                </form>
+                                <h5 class="card-title text-center d-inline-block">@item.Title</h5>
                             </div>
                             <div class="card-body text-center">
                                 <p>@item.Description</p>
-                                <h5><span class="badge @item.TaskPriority">@item.TaskPriority</span></h5>
+                                <h5><span class="badge bg-primary">@item.TaskPriority</span></h5>
                                 <p>@item.Created.ToString("d")</p>
                             </div>
                             <div class="card-footer d-flex justify-content-end">
@@ -145,7 +162,7 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                                                 <button type="submit" class="btn btn-primary">Save changes</button>
                                             </div>
                                         </form>
@@ -188,7 +205,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary">Add task</button>
                 </div>
             </form>

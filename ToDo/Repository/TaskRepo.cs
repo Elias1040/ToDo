@@ -17,7 +17,7 @@ namespace ToDo.Repository
 
         public List<ToDoTask> GetAllTasks() => _toDoTasks;
 
-        public void EditTask(string guid, string title, string description, int priority, bool isCompleted)
+        public void EditTask(string guid, string? title, string? description, int priority, bool isCompleted)
         {
             ToDoTask? task = GetTask(guid);
             task.Title = !string.IsNullOrWhiteSpace(title) ? title : task.Title;
