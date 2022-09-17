@@ -12,3 +12,9 @@
 .High {
     background-color: red;
 }
+
+.collapsing {
+    -webkit-transition: none;
+    transition: none;
+    display: none;
+}

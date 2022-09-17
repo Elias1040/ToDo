@@ -27,15 +27,17 @@ namespace ToDo.Pages
         [BindProperty, Required]
         public bool IsCompleted { get; set; }
 
+        public string? Error { get; set; }
+
         public IndexModel(ITaskRepo repo)
         {
             _repo = repo;
             ToDoTasks = repo.GetAllTasks();
         }
 
-        public void OnGet()
+        public void OnGet(string? error)
         {
-
+            Error = error;
         }
 
         public IActionResult OnPostAdd()
@@ -49,7 +51,7 @@ namespace ToDo.Pages
                     return RedirectToPage();
                 }
             }
-            return Page();
+            return RedirectToPage("Index", new { error = "error" });
         }
 
         public IActionResult OnPostEdit()
@@ -57,24 +59,19 @@ namespace ToDo.Pages
             if (!(string.IsNullOrWhiteSpace(Title) | string.IsNullOrWhiteSpace(Description)) && (Title?.Length <= 25 && Description?.Length <= 25))
             {
                 _repo.EditTask(GUID, Title, Description, Priority, IsCompleted);
-                return RedirectToPage();
             }
             else if (string.IsNullOrWhiteSpace(Title) && string.IsNullOrWhiteSpace(Description))
             {
                 _repo.EditTask(GUID, Title, Description, Priority, IsCompleted);
-                return RedirectToPage();
 
             }
             else if (!string.IsNullOrWhiteSpace(Title) && Title.Length <= 25)
             {
                 _repo.EditTask(GUID, Title, Description, Priority, IsCompleted);
-                return RedirectToPage();
-
             }
             else if (!string.IsNullOrWhiteSpace(Description) && Description.Length <= 25)
             {
                 _repo.EditTask(GUID, Title, Description, Priority, IsCompleted);
-                return RedirectToPage();
             }
             return Page();
         }
@@ -93,7 +90,7 @@ namespace ToDo.Pages
         public IActionResult OnPostDelete()
         {
             _repo.DeleteTask(GUID);
-            return RedirectToPage();
+            return Page();
         }
     }
 }
