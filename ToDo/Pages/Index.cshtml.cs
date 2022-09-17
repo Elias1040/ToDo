@@ -51,7 +51,7 @@ namespace ToDo.Pages
                     return RedirectToPage();
                 }
             }
-            return RedirectToPage("Index", new { error = "error" });
+            return RedirectToPage("Index", new { error = "The fields Title or Description cannot be empty or contain more than 25 characters when adding a task" });
         }
 
         public IActionResult OnPostEdit()
@@ -73,7 +73,7 @@ namespace ToDo.Pages
             {
                 _repo.EditTask(GUID, Title, Description, Priority, IsCompleted);
             }
-            return Page();
+            return RedirectToPage();
         }
 
 
@@ -84,13 +84,19 @@ namespace ToDo.Pages
                 _repo.CompleteTask(GUID);
                 return RedirectToPage();
             }
-            return Page();
+            return RedirectToPage();
         }
 
         public IActionResult OnPostDelete()
         {
             _repo.DeleteTask(GUID);
-            return Page();
+            return RedirectToPage();
+        }
+
+        public IActionResult OnPostDeleteCompletedTasks()
+        {
+            _repo.DeleteCompletedTasks();
+            return RedirectToPage();
         }
     }
 }
