@@ -76,3 +76,4 @@ ToDo is a razor page project for a final assignment where you can make todo task
 * Project created
 
 # To-do
+* Multiple laguage choices
