@@ -28,6 +28,7 @@ ToDo is a razor page project for a final assignment where you can make todo task
 
 
 ## Tags
+* [V1.3](https://github.com/Elias1040/ToDo/tree/V1.3)
 * [V1.2](https://github.com/Elias1040/ToDo/tree/V1.2)
 * [V1.1](https://github.com/Elias1040/ToDo/tree/V1.1)
 * [V1.0](https://github.com/Elias1040/ToDo/tree/V1.0)
@@ -41,22 +42,37 @@ ToDo is a razor page project for a final assignment where you can make todo task
 
 ## Changelog
 
+### [V1.3](https://github.com/Elias1040/ToDo/tree/V1.3) Features: 
+
 ### [V1.2](https://github.com/Elias1040/ToDo/tree/V1.2) Features: 
+* Delete all completed tasks feature
+* Improved validation
+* Improved styling
 
-### [V1.1](https://github.com/Elias1040/ToDo/tree/V1.1)
+### [V1.1](https://github.com/Elias1040/ToDo/tree/V1.1) Features:
+* Delete tasks feature
 
-### [V1.0](https://github.com/Elias1040/ToDo/tree/V1.0)
+### [V1.0](https://github.com/Elias1040/ToDo/tree/V1.0) Features:
+* Improved styling
 
-### [V0.6](https://github.com/Elias1040/ToDo/tree/V0.6)
+### [V0.6](https://github.com/Elias1040/ToDo/tree/V0.6) Features:
+* Validation
 
-### [V0.5](https://github.com/Elias1040/ToDo/tree/V0.5)
+### [V0.5](https://github.com/Elias1040/ToDo/tree/V0.5) Features:
+* Switched to Single Page Application
+* Complete tasks feature
 
-### [V0.4](https://github.com/Elias1040/ToDo/tree/V0.4)
+### [V0.4](https://github.com/Elias1040/ToDo/tree/V0.4) Features:
+* Page for updating tasks
 
-### [V0.3](https://github.com/Elias1040/ToDo/tree/V0.3)
+### [V0.3](https://github.com/Elias1040/ToDo/tree/V0.3) Features:
+* Page for creating tasks
 
-### [V0.2](https://github.com/Elias1040/ToDo/tree/V0.3)
+### [V0.2](https://github.com/Elias1040/ToDo/tree/V0.3) Features:
+* Tasks are displayed
+* Basic CRUD in repo
 
-### [V0.1](https://github.com/Elias1040/ToDo/tree/V0.3)
+### [V0.1](https://github.com/Elias1040/ToDo/tree/V0.3) Features:
+* Project created
 
 # To-do
