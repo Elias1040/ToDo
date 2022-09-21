@@ -4,12 +4,12 @@ namespace ToDo.Repository
 {
     public interface ITaskRepo
     {
-        void AddTask(string title, string description, int priority);
-        void CompleteTask(string guid);
+        void AddTask(ToDoTask task);
+        void CompleteTask(Guid guid);
         void DeleteCompletedTasks();
-        void DeleteTask(string guid);
-        void EditTask(string guid, string? title, string? description, int priority, bool isCompleted);
+        void DeleteTask(Guid guid);
+        void EditTask(ToDoTask task);
         List<ToDoTask> GetAllTasks();
-        ToDoTask? GetTask(string guid);
+        ToDoTask? GetTask(Guid guid);
     }
 }

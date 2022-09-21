@@ -11,26 +11,26 @@ namespace ToDo.Repository
             _toDoTasks = new List<ToDoTask>();
         }
 
-        public void AddTask(string title, string description, int priority) => _toDoTasks.Add(new(title, description, (ToDoTask.Priority)priority));
+        public void AddTask(ToDoTask task) => _toDoTasks.Add(task);
 
-        public ToDoTask? GetTask(string guid) => _toDoTasks.Find(task => task.GUID.ToString() == guid);
+        public ToDoTask? GetTask(Guid guid) => _toDoTasks.SingleOrDefault(task => task.GUID == guid);
 
         public List<ToDoTask> GetAllTasks() => _toDoTasks.OrderBy(task => task.Created).ToList();
 
-        public void EditTask(string guid, string? title, string? description, int priority, bool isCompleted)
+        public void EditTask(ToDoTask toDoTask)
         {
-            ToDoTask? task = GetTask(guid);
-            task.Title = !string.IsNullOrWhiteSpace(title) ? title : task.Title;
-            task.Description = !string.IsNullOrWhiteSpace(description) ? description : task.Description;
-            task.TaskPriority = (ToDoTask.Priority)priority;
-            task.IsCompleted = isCompleted;
+            ToDoTask? task = GetTask(toDoTask.GUID);
+            task.Title = !string.IsNullOrWhiteSpace(toDoTask.Title) ? toDoTask.Title : task.Title;
+            task.Description = !string.IsNullOrWhiteSpace(toDoTask.Description) ? toDoTask.Description : task.Description;
+            task.TaskPriority = toDoTask.TaskPriority;
+            task.IsCompleted = toDoTask.IsCompleted;
         }
 
-        public void DeleteTask(string guid) => _toDoTasks.Remove(GetTask(guid));
+        public void DeleteTask(Guid guid) => _toDoTasks.Remove(GetTask(guid));
 
         public void DeleteCompletedTasks() => _toDoTasks.RemoveAll(task => task.IsCompleted);
 
-        public void CompleteTask(string guid) => GetTask(guid).IsCompleted = true;
+        public void CompleteTask(Guid guid) => GetTask(guid).IsCompleted = true;
 
     }
 }
