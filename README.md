@@ -43,6 +43,9 @@ ToDo is a razor page project for a final assignment where you can make todo task
 ## Changelog
 
 ### [V1.3](https://github.com/Elias1040/ToDo/tree/V1.3) Features: 
+* Fully responsive
+* Improved validation
+* SPA lookalike
 
 ### [V1.2](https://github.com/Elias1040/ToDo/tree/V1.2) Features: 
 * Delete all completed tasks feature
