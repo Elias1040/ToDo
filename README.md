@@ -26,6 +26,28 @@ ToDo is a razor page project for a final assignment where you can make todo task
 
 ## Instructions
 
+##### Front page
+![image](https://user-images.githubusercontent.com/101317597/191428365-5e6a7212-b2a1-414b-91c8-7f78a0e8f4ea.png)
+* Show all tasks 
+* Switch between pending and completed tasks
+* Open confirm delete task modal
+* Complete task by complete button
+* Edit button opens modal for editing
+* New task opens modal for creating a new task
+
+##### Add task
+![image](https://user-images.githubusercontent.com/101317597/191429271-48807014-692c-45db-b974-c0bb700ef77b.png)
+* All fields required
+
+##### Edit task
+![image](https://user-images.githubusercontent.com/101317597/191429416-459c6dd9-0e45-4568-971f-4d7affb121f7.png)
+* If title and description is empty they remain unchanged
+* Priority and completed is required
+
+##### Delete task
+![image](https://user-images.githubusercontent.com/101317597/191429515-0837be87-6e86-4aeb-9109-3251ec86ee87.png)
+* Opens modal with confirm button
+
 
 ## Tags
 * [V1.3](https://github.com/Elias1040/ToDo/tree/V1.3)
