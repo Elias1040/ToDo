@@ -19,9 +19,9 @@ ToDo is a razor page project for a final assignment where you can make todo task
   <li>Show all completed tasks</li> [✔️]
   <li>Delete all completed tasks</li> [✔️]
   <li>Validation and error mesagges on inputs</li>[✔️]
-  <li>Multiple laguage choices</li>
   <li>Sorted tasks</li>[✔️]
   <li>Stylish ui</li>[✔️]
+  <li>Multiple laguage choices</li>
 </ul>
 
 ## Instructions
