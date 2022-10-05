@@ -32,7 +32,7 @@ namespace ToDo.Pages
                 Priority = (ToDoTask.Priority)priority;
                 if (ModelState.IsValid)
                 {
-                    _repo.AddTask(new(Title, Description, Priority));
+                    _repo.AddTask(new(Title, Description, Priority), HttpContext.Session.GetString("UserID"));
                     return RedirectToPage("Index");
                 }
                 else

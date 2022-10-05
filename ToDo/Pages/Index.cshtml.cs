@@ -40,9 +40,18 @@ namespace ToDo.Pages
             ToDoTasks = repo.GetAllTasks();
         }
 
-        public void OnGet(string? error)
+        public IActionResult OnGet(string? error)
         {
-            Error = error;
+            if (String.IsNullOrWhiteSpace(HttpContext.Session.GetString("UserID")))
+            {
+                return RedirectToPage("Login");
+            }
+            else
+            {
+                _repo.LoadTasks(HttpContext.Session.GetString("UserID"));
+                Error = error;
+                return Page();
+            }
         }
 
         public IActionResult OnPostAdd()

@@ -1,21 +1,28 @@
-﻿using ToDo.Models;
+﻿using ToDo.DAL;
+using ToDo.Models;
 
 namespace ToDo.Repository
 {
     public class TaskRepo : ITaskRepo
     {
         private readonly List<ToDoTask> _toDoTasks;
-
-        public TaskRepo()
+        private readonly TaskData _data;
+        public TaskRepo(IConfiguration config)
         {
+            _data = new(config);
             _toDoTasks = new List<ToDoTask>();
+        }
+
+        public void LoadTasks(string userID)
+        {
+            _toDoTasks.AddRange(_data.GetTasks(userID));
         }
 
         /// <summary>
         /// Adds a task
         /// </summary>
         /// <param name="task"></param>
-        public void AddTask(ToDoTask task) => _toDoTasks.Add(task);
+        public void AddTask(ToDoTask task, string userID) => _toDoTasks.Add(_data.AddTask(task, userID));
 
         /// <summary>
         /// Gets a task by a guid
@@ -41,15 +48,14 @@ namespace ToDo.Repository
             task.Description = !string.IsNullOrWhiteSpace(toDoTask.Description) ? toDoTask.Description : task.Description;
             task.TaskPriority = toDoTask.TaskPriority;
             task.IsCompleted = toDoTask.IsCompleted;
-            int i = 0;
-            i;
+            _data.UpdateTask(task);
         }
 
         /// <summary>
         /// Removes the task by guid
         /// </summary>
         /// <param name="guid"></param>
-        public void DeleteTask(Guid guid) => _toDoTasks.Remove(GetTask(guid));
+        public void DeleteTask(Guid guid) => _toDoTasks.Remove(_data.DeleteTask(GetTask(guid)));
 
         /// <summary>
         /// Removes all completed tasks
@@ -60,6 +66,6 @@ namespace ToDo.Repository
         /// Complete a task by guid
         /// </summary>
         /// <param name="guid"></param>
-        public void CompleteTask(Guid guid) => GetTask(guid).IsCompleted = true;
+        public void CompleteTask(Guid guid) => _data.CompleteTask(GetTask(guid)).IsCompleted = true;
     }
 }

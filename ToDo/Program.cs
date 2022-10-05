@@ -5,7 +5,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages().
-    Services.AddSingleton<ITaskRepo, TaskRepo>();
+    Services.AddSingleton<ITaskRepo, TaskRepo>().
+    AddSingleton<IUserRepo, UserRepo>().
+    AddSession(option => { option.IdleTimeout = TimeSpan.FromMinutes(30); }).
+    AddMemoryCache().
+    AddMvc().
+    AddRazorPagesOptions(option => { option.Conventions.AddPageRoute("/Login", ""); });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -19,8 +24,9 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseRouting();
+app.UseSession();
 
+app.UseRouting();
 
 app.UseAuthorization();
 
