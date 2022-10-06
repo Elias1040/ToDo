@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using ToDo.Models;
 using ToDo.Repository;
 
 namespace ToDo.Pages
@@ -34,6 +35,10 @@ namespace ToDo.Pages
                                             .Select(x => x.ErrorMessage));
                     return RedirectToPage("Index", new { error = messages });
                 }
+            }
+            catch (CustomException err)
+            {
+                return RedirectToPage("Index", new { error = err.Message });
             }
             catch (Exception)
             {

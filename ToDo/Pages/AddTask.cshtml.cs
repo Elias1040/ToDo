@@ -43,6 +43,10 @@ namespace ToDo.Pages
                     return RedirectToPage("Index", new { error = messages });
                 }
             }
+            catch (CustomException err)
+            {
+                return RedirectToPage("Index", new { error = err.Message });
+            }
             catch (Exception)
             {
                 return RedirectToPage("Error");

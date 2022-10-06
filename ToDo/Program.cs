@@ -1,7 +1,15 @@
 using Microsoft.Extensions.Options;
+using System.Configuration;
 using ToDo.Repository;
+using Volo.Abp.Data;
+
+
+
+
+
 
 var builder = WebApplication.CreateBuilder(args);
+var builder2 = new ConfigurationBuilder().AddJsonFile("/appsettings.json");
 
 // Add services to the container.
 builder.Services.AddRazorPages().

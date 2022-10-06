@@ -25,9 +25,9 @@ namespace ToDo.Repository
             }
         }
 
-        public void AddUser(string name, string username, string password)
+        public User AddUser(string name, string username, string password)
         {
-            _data.AddUser(new(Guid.NewGuid(), name, username, password));
+            return _data.AddUser(new(Guid.NewGuid(), name, username, password));
         }
 
         public void UpdateUser(string guid, string name, string username, string password)

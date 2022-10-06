@@ -2,6 +2,7 @@
 using System.Data;
 using System;
 using ToDo.Models;
+using System.Threading.Tasks;
 
 namespace ToDo.DAL
 {
@@ -67,12 +68,13 @@ namespace ToDo.DAL
                         TaskPriority = (ToDoTask.Priority)reader.GetInt32("Priority")
                     };
                 }
-                return task;
             };
+            return task;
         }
 
         public ToDoTask UpdateTask(ToDoTask task)
         {
+            int rowsAffected = 0;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new("UpdateTask", conn);
@@ -83,13 +85,21 @@ namespace ToDo.DAL
                 cmd.Parameters.AddWithValue("@Priority", (int)task.TaskPriority);
                 cmd.Parameters.AddWithValue("@Completed", task.IsCompleted);
                 conn.Open();
-                cmd.ExecuteNonQuery();
+                rowsAffected = cmd.ExecuteNonQuery();
             }
-            return task;
+            if (rowsAffected > 0)
+            {
+                return task;
+            }
+            else
+            {
+                throw new Exception("Something went wrong");
+            }
         }
 
         public ToDoTask AddTask(ToDoTask task, string userID)
         {
+            int rowsAffected = 0;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 Guid.TryParse(userID, out Guid guid);
@@ -101,35 +111,76 @@ namespace ToDo.DAL
                 cmd.Parameters.AddWithValue("@Description", task.Description);
                 cmd.Parameters.AddWithValue("@Priority", (int)task.TaskPriority);
                 conn.Open();
-                cmd.ExecuteNonQuery();
+                rowsAffected = cmd.ExecuteNonQuery();
             }
-            return task;
+            if (rowsAffected > 0)
+            {
+                return task;
+            }
+            else
+            {
+                throw new Exception("Something went wrong");
+            }
         }
 
         public ToDoTask DeleteTask(ToDoTask task)
         {
+            int rowsAffected = 0;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new("DeleteTask", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@TaskID", task.GUID);
+                cmd.Parameters.AddWithValue("@TaskID", task?.GUID);
                 conn.Open();
                 cmd.ExecuteNonQuery();
             }
-            return task;
+            if (rowsAffected > 0)
+            {
+                return task;
+            }
+            else
+            {
+                throw new CustomException("Something went wrong");
+            }
         }
 
         public ToDoTask CompleteTask(ToDoTask task)
         {
+            int rowsAffected = 0;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new("CompleteTask", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@TaskID", task.GUID);
+                cmd.Parameters.AddWithValue("@TaskID", task?.GUID);
+                conn.Open();
+                rowsAffected = cmd.ExecuteNonQuery();
+            }
+            if (rowsAffected < 0)
+            {
+                throw new CustomException("Something went wrong");
+            }
+            else
+            {
+                return task;
+            }
+        }
+
+        public void DeleteCompletedTasks(string userID)
+        {
+            int rowsAffected = 0;
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                Guid.TryParse(userID, out Guid guid);
+                SqlCommand cmd = new("DeleteCompletedTasks", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@userID", guid);
                 conn.Open();
                 cmd.ExecuteNonQuery();
             }
-            return task;
+            if (rowsAffected == 0)
+            {
+                throw new CustomException("Something went wrong");
+            }
         }
     }
 }

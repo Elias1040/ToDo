@@ -37,7 +37,6 @@ namespace ToDo.Pages
         public IndexModel(ITaskRepo repo)
         {
             _repo = repo;
-            ToDoTasks = repo.GetAllTasks();
         }
 
         public IActionResult OnGet(string? error)
@@ -49,6 +48,7 @@ namespace ToDo.Pages
             else
             {
                 _repo.LoadTasks(HttpContext.Session.GetString("UserID"));
+                ToDoTasks = _repo.GetAllTasks();
                 Error = error;
                 return Page();
             }
@@ -72,23 +72,6 @@ namespace ToDo.Pages
 
         public IActionResult OnPostEdit(string guid)
         {
-            //if (!(string.IsNullOrWhiteSpace(Title) | string.IsNullOrWhiteSpace(Description)) && (Title?.Length <= 25 && Description?.Length <= 25))
-            //{
-            //    _repo.EditTask(GUID, Title, Description, Priority, IsCompleted);
-            //}
-            //else if (string.IsNullOrWhiteSpace(Title) && string.IsNullOrWhiteSpace(Description))
-            //{
-            //    _repo.EditTask(GUID, Title, Description, Priority, IsCompleted);
-
-            //}
-            //else if (!string.IsNullOrWhiteSpace(Title) && Title.Length <= 25)
-            //{
-            //    _repo.EditTask(GUID, Title, Description, Priority, IsCompleted);
-            //}
-            //else if (!string.IsNullOrWhiteSpace(Description) && Description.Length <= 25)
-            //{
-            //    _repo.EditTask(GUID, Title, Description, Priority, IsCompleted);
-            //}
             if (ModelState.IsValid)
             {
                 return RedirectToPage("UpdateTask", new { guid, title = Title, description = Description, priority = (int)Priority, isCompleted = IsCompleted });
@@ -115,8 +98,15 @@ namespace ToDo.Pages
 
         public IActionResult OnPostDeleteCompletedTasks()
         {
-            _repo.DeleteCompletedTasks();
+            _repo.DeleteCompletedTasks(HttpContext.Session.GetString("UserID"));
             return RedirectToPage();
+        }
+
+        public IActionResult OnPostLogout()
+        {
+            HttpContext.Session.Remove("UserID");
+            _repo.ClearTaskList();
+            return RedirectToPage("Login");
         }
     }
 }

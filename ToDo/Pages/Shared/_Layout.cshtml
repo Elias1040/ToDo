@@ -30,7 +30,12 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
                         <li class="nav-item col-10 d-flex justify-content-end">
-                            <a hidden class="btn btn-primary text-light" asp-page="NewTask">New Task</a>
+                            @if (!String.IsNullOrWhiteSpace(Context.Session.GetString("UserID")))
+                            {
+                                <form asp-page-handler="Logout" method="post" class="col-1">
+                                    <input class="btn btn-danger text-light col-12" type="submit" value="Logout" />
+                                </form>
+                            }
                         </li>
                     </ul>
                 </div>

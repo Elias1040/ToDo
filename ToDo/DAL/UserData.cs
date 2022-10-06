@@ -62,8 +62,9 @@ namespace ToDo.DAL
             return user;
         }
 
-        public void AddUser(User user)
+        public User AddUser(User user)
         {
+            int rowsAffected = 0;
             using (SqlConnection conn = new(connectionString))
             {
                 SqlCommand cmd = new("AddUser", conn);
@@ -73,23 +74,37 @@ namespace ToDo.DAL
                 cmd.Parameters.AddWithValue("@Password", user.Password);
                 cmd.Parameters.AddWithValue("@Username", user.Username);
                 conn.Open();
-                cmd.ExecuteNonQuery();
+                rowsAffected = cmd.ExecuteNonQuery();
+            }
+            if (rowsAffected > 0)
+            {
+                return user;
+            }
+            else
+            {
+                throw new UserAllreadyExistsException();
             }
         }
 
         public void DeleteUser(Guid guid)
-        {
+        {   int rowsAffected = 0;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new("DeleteUser", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Guid", guid);
-                cmd.ExecuteNonQuery();
+                rowsAffected = cmd.ExecuteNonQuery();
             }
+            if (rowsAffected == 0)
+            {
+                throw new CustomException("Could not delete the user");
+            }
+
         }
 
         public User UpdateUser(User user)
         {
+            int rowsAffected = 0;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new("UpdateUser", conn);
@@ -100,7 +115,14 @@ namespace ToDo.DAL
                 cmd.Parameters.AddWithValue("@password", user.Password);
                 cmd.ExecuteNonQuery();
             }
-            return user;
+            if (rowsAffected > 0)
+            {
+                return user;
+            }
+            else
+            {
+                throw new UserAllreadyExistsException();
+            }
         }
     }
 }

@@ -15,7 +15,10 @@ namespace ToDo.Repository
 
         public void LoadTasks(string userID)
         {
-            _toDoTasks.AddRange(_data.GetTasks(userID));
+            if (_toDoTasks.Count == 0)
+            {
+                _toDoTasks.AddRange(_data.GetTasks(userID));
+            }
         }
 
         /// <summary>
@@ -60,12 +63,18 @@ namespace ToDo.Repository
         /// <summary>
         /// Removes all completed tasks
         /// </summary>
-        public void DeleteCompletedTasks() => _toDoTasks.RemoveAll(task => task.IsCompleted);
+        public void DeleteCompletedTasks(string userID)
+        {
+            _toDoTasks.RemoveAll(task => task.IsCompleted);
+            _data.DeleteCompletedTasks(userID);
+        }
 
         /// <summary>
         /// Complete a task by guid
         /// </summary>
-        /// <param name="guid"></param>
+        /// <param name="guid"></param>            
         public void CompleteTask(Guid guid) => _data.CompleteTask(GetTask(guid)).IsCompleted = true;
+
+        public void ClearTaskList() => _toDoTasks.Clear();
     }
 }

@@ -13,8 +13,8 @@ namespace ToDo.Pages
         public string Name { get; set; }
         [BindProperty, Required]
         public string Password { get; set; }
-        [BindProperty, Required, Compare(nameof(Password))]
-        public string ConfPassword { get; set; }
+        [BindProperty, Required, Compare(nameof(Password), ErrorMessage = "The Confirm Password field is required.")]
+        public string ConfirmPassword { get; set; }
 
         private readonly IUserRepo _userRepo;
 
@@ -28,11 +28,20 @@ namespace ToDo.Pages
             
         }
 
-        public void OnPost()
+        public IActionResult OnPost()
         {
             if (ModelState.IsValid)
             {
-                _userRepo.AddUser(Name, Username, Password);
+                HttpContext.Session.SetString("UserID", _userRepo.AddUser(Name, Username, Password).GUID.ToString());
+                return RedirectToPage("Index");
+            }
+            else
+            {
+                string messages = string.Join("; ", ModelState.Values
+                                        .SelectMany(x => x.Errors)
+                                        .Select(x => x.ErrorMessage));
+
+                return RedirectToPage("Signup", new { error = messages });
             }
         }
     }

@@ -4,26 +4,35 @@
 }
 
 <div class="d-flex justify-content-center align-items-center col-12 h-100">
-    <div class="border-dark border border-1 rounded-3 d-flex justify-content-center bg-white col-lg-3 col-md-6 p-4 shadow-lg">
+    <div class="border-dark border border-1 rounded-3 d-flex justify-content-center bg-white col-lg-6 col-md-9 p-4 shadow-lg">
         <form method="post" class="col-12">
-            <div class="col-12 mb-3">
-                <label class="form-label col-12">Username: </label>
-                <input asp-for="Username" type="text" class="form-control col-12" />
-            </div>
-            <div class="col-12 mb-3">
-                <label class="form-label col-12">Name: </label>
-                <input asp-for="Name" type="text" class="form-control col-12" />
+            <div class="row g-3 mb-3">
+                <div class="col-6">
+                    <label class="form-label col-12">Username: </label>
+                    <input asp-for="Username" type="text" class="form-control mb-2 col-12" />
+                    <span class="text-danger" asp-validation-for="Username"></span>
+                </div>
+                <div class="col-6">
+                    <label class="form-label col-12">Name: </label>
+                    <input asp-for="Name" type="text" class="form-control mb-2 col-12" />
+                    <span class="text-danger" asp-validation-for="Name"></span>
+                </div>
             </div>
             <div class="col-12 mb-3">
                 <label class="form-label col-12">Password: </label>
-                <input asp-for="Password" type="password" class="form-control col-12" />
+                <input asp-for="Password" type="password" class="form-control col-12 mb-2" />
+                <span class="text-danger" asp-validation-for="Password"></span>
             </div>
             <div class="col-12 mb-3">
                 <label class="form-label col-12">Confirm Password: </label>
-                <input asp-for="ConfPassword" type="password" class="form-control col-12" />
+                <input asp-for="ConfirmPassword" type="password" class="form-control mb-2 col-12" />
+                <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
             </div>
-            <div class="col-12">
-                <input class="btn btn-warning col-6" type="submit" value="Login" />
+            <div class="col-12 d-flex justify-content-center mb-3">
+                <input class="btn btn-warning col-6" type="submit" value="Signup" />
+            </div>
+            <div class="col-12 d-flex justify-content-center">
+                <a asp-page="Login" class="link-primary">Login</a>
             </div>
         </form>
     </div>
