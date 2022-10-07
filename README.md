@@ -21,6 +21,7 @@ ToDo is a razor page project for a final assignment where you can make todo task
   <li>Validation and error mesagges on inputs</li>[✔️]
   <li>Sorted tasks</li>[✔️]
   <li>Stylish ui</li>[✔️]
+  <li>DAL</li>[✔️]
   <li>Multiple laguage choices</li>
 </ul>
 
@@ -49,20 +50,20 @@ ToDo is a razor page project for a final assignment where you can make todo task
 * Opens modal with confirm button
 
 
-## Tags
-* [V1.3](https://github.com/Elias1040/ToDo/tree/V1.3)
-* [V1.2](https://github.com/Elias1040/ToDo/tree/V1.2)
-* [V1.1](https://github.com/Elias1040/ToDo/tree/V1.1)
-* [V1.0](https://github.com/Elias1040/ToDo/tree/V1.0)
-* [V0.6](https://github.com/Elias1040/ToDo/tree/V0.6)
-* [V0.5](https://github.com/Elias1040/ToDo/tree/V0.5)
-* [V0.4](https://github.com/Elias1040/ToDo/tree/V0.4)
-* [V0.3](https://github.com/Elias1040/ToDo/tree/V0.3)
-* [V0.2](https://github.com/Elias1040/ToDo/tree/V0.2)
-* [V0.1](https://github.com/Elias1040/ToDo/tree/V0.1)
-
-
 ## Changelog
+### [V2.4](https://github.com/Elias1040/ToDo/tree/V2.4) Features: 
+* Contribution on tasks
+
+### [V2.3](https://github.com/Elias1040/ToDo/tree/V2.3) Features: 
+* Login
+* Signup
+* Validation
+
+### [V2.2](https://github.com/Elias1040/ToDo/tree/V2.2) Features: 
+* Login
+
+### [V2.1](https://github.com/Elias1040/ToDo/tree/V2.1) Features: 
+* User DAL
 
 ### [V1.3](https://github.com/Elias1040/ToDo/tree/V1.3) Features: 
 * Fully responsive
