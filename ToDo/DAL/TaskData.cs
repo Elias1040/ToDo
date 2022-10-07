@@ -72,7 +72,7 @@ namespace ToDo.DAL
             return task;
         }
 
-        public ToDoTask UpdateTask(ToDoTask task)
+        public ToDoTask UpdateTask(ToDoTask task, string? contributers)
         {
             int rowsAffected = 0;
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -86,6 +86,23 @@ namespace ToDo.DAL
                 cmd.Parameters.AddWithValue("@Completed", task.IsCompleted);
                 conn.Open();
                 rowsAffected = cmd.ExecuteNonQuery();
+                conn.Close();
+                if (!string.IsNullOrWhiteSpace(contributers))
+                {
+                    List<string> contributersList = contributers.Split(',', StringSplitOptions.TrimEntries).ToList();
+                    contributersList.ForEach(x =>
+                    {
+                        using (SqlConnection conn = new SqlConnection(connectionString))
+                        {
+                            cmd = new("AddContributers", conn);
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@Username", x);
+                            cmd.Parameters.AddWithValue("@TaskID", task.GUID.ToString());
+                            conn.Open();
+                            cmd.ExecuteNonQuery();
+                        }
+                    });
+                }
             }
             if (rowsAffected > 0)
             {
@@ -97,7 +114,7 @@ namespace ToDo.DAL
             }
         }
 
-        public ToDoTask AddTask(ToDoTask task, string userID)
+        public ToDoTask AddTask(ToDoTask task, string userID, string? contributers)
         {
             int rowsAffected = 0;
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -112,6 +129,23 @@ namespace ToDo.DAL
                 cmd.Parameters.AddWithValue("@Priority", (int)task.TaskPriority);
                 conn.Open();
                 rowsAffected = cmd.ExecuteNonQuery();
+                conn.Close();
+                if (!string.IsNullOrWhiteSpace(contributers))
+                {
+                    List<string> contributersList = contributers.Split(',', StringSplitOptions.TrimEntries).ToList();
+                    contributersList.ForEach(x =>
+                    {
+                        using (SqlConnection conn = new SqlConnection(connectionString))
+                        {
+                            cmd = new("AddContributers", conn);
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@Username", x);
+                            cmd.Parameters.AddWithValue("@TaskID", task.GUID.ToString());
+                            conn.Open();
+                            cmd.ExecuteNonQuery();
+                        }
+                    });
+                }
             }
             if (rowsAffected > 0)
             {
@@ -132,7 +166,7 @@ namespace ToDo.DAL
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@TaskID", task?.GUID);
                 conn.Open();
-                cmd.ExecuteNonQuery();
+                rowsAffected = cmd.ExecuteNonQuery();
             }
             if (rowsAffected > 0)
             {

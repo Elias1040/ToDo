@@ -27,13 +27,13 @@ namespace ToDo.Pages
 
         [Required(ErrorMessage = "Field Completed is required")]
         public bool IsCompleted { get; set; }
-
+        public string Contributers { get; set; }
         public UpdateTaskModel(ITaskRepo repo)
         {
             _repo = repo;
         }
 
-        public IActionResult OnGet(Guid guid, string? title, string? description, int priority, bool isCompleted)
+        public IActionResult OnGet(Guid guid, string? title, string? description, string? contributers, int priority, bool isCompleted)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace ToDo.Pages
                         Description = Description,
                         TaskPriority = Priority,
                         IsCompleted = IsCompleted
-                    });
+                    }, contributers);
                     return RedirectToPage("Index");
                 }
                 else

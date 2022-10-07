@@ -25,7 +25,7 @@ namespace ToDo.Repository
         /// Adds a task
         /// </summary>
         /// <param name="task"></param>
-        public void AddTask(ToDoTask task, string userID) => _toDoTasks.Add(_data.AddTask(task, userID));
+        public void AddTask(ToDoTask task, string contributers, string userID) => _toDoTasks.Add(_data.AddTask(task, userID, contributers));
 
         /// <summary>
         /// Gets a task by a guid
@@ -44,14 +44,14 @@ namespace ToDo.Repository
         /// Updates the task with the given values
         /// </summary>
         /// <param name="toDoTask"></param>
-        public void EditTask(ToDoTask toDoTask)
+        public void EditTask(ToDoTask toDoTask, string? contributers)
         {
             ToDoTask? task = GetTask(toDoTask.GUID);
             task.Title = !string.IsNullOrWhiteSpace(toDoTask.Title) ? toDoTask.Title : task.Title;
             task.Description = !string.IsNullOrWhiteSpace(toDoTask.Description) ? toDoTask.Description : task.Description;
             task.TaskPriority = toDoTask.TaskPriority;
             task.IsCompleted = toDoTask.IsCompleted;
-            _data.UpdateTask(task);
+            _data.UpdateTask(task, contributers);
         }
 
         /// <summary>
@@ -65,8 +65,8 @@ namespace ToDo.Repository
         /// </summary>
         public void DeleteCompletedTasks(string userID)
         {
-            _toDoTasks.RemoveAll(task => task.IsCompleted);
             _data.DeleteCompletedTasks(userID);
+            _toDoTasks.RemoveAll(task => task.IsCompleted);
         }
 
         /// <summary>

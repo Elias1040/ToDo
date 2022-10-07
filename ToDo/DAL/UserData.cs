@@ -17,21 +17,28 @@ namespace ToDo.DAL
             User user = new();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("GetUser", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Username", username);
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                try
                 {
-                    Guid.TryParse(reader.GetString("UserID"), out Guid guid);
-                    user = new User()
+                    SqlCommand cmd = new SqlCommand("GetUser", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Username", username);
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
                     {
-                        GUID = guid,
-                        Name = reader.GetString("Name"),
-                        Username = reader.GetString("Username"),
-                        Password = reader.GetString("Password"),
-                    };
+                        Guid.TryParse(reader.GetString("UserID"), out Guid guid);
+                        user = new User()
+                        {
+                            GUID = guid,
+                            Name = reader.GetString("Name"),
+                            Username = reader.GetString("Username"),
+                            Password = reader.GetString("Password"),
+                        };
+                    }
+                }
+                catch (SqlException)
+                {
+
                 }
             };
             return user;
@@ -42,21 +49,28 @@ namespace ToDo.DAL
             User user = new();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("GetUserByID", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Guid", userID);
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                try
                 {
-                    Guid.TryParse(userID, out Guid guid);
-                    user = new User()
+                    SqlCommand cmd = new SqlCommand("GetUserByID", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Guid", userID);
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
                     {
-                        GUID = guid,
-                        Name = reader.GetString("Name"),
-                        Username = reader.GetString("Username"),
-                        Password = reader.GetString("Password"),
-                    };
+                        Guid.TryParse(userID, out Guid guid);
+                        user = new User()
+                        {
+                            GUID = guid,
+                            Name = reader.GetString("Name"),
+                            Username = reader.GetString("Username"),
+                            Password = reader.GetString("Password"),
+                        };
+                    }
+                }
+                catch (SqlException)
+                {
+
                 }
             };
             return user;
@@ -87,7 +101,8 @@ namespace ToDo.DAL
         }
 
         public void DeleteUser(Guid guid)
-        {   int rowsAffected = 0;
+        {
+            int rowsAffected = 0;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new("DeleteUser", conn);

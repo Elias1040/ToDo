@@ -32,9 +32,11 @@ namespace ToDo.Pages
         [BindProperty]
         public bool IsCompleted { get; set; }
 
+        [BindProperty]
+        public string? Contributers { get; set; }
         public string? Error { get; set; }
 
-        public IndexModel(ITaskRepo repo)
+        public IndexModel(ITaskRepo repo, IUserRepo userRepo)
         {
             _repo = repo;
         }
@@ -58,7 +60,7 @@ namespace ToDo.Pages
         {
             if (ModelState.IsValid)
             {
-                return RedirectToPage("AddTask", new { title = Title, description = Description, priority = (int)Priority });
+                return RedirectToPage("AddTask", new { title = Title, description = Description, priority = (int)Priority, contributers = !string.IsNullOrWhiteSpace(Contributers)?Contributers.Trim():string.Empty });
             }
             else
             {
@@ -74,7 +76,7 @@ namespace ToDo.Pages
         {
             if (ModelState.IsValid)
             {
-                return RedirectToPage("UpdateTask", new { guid, title = Title, description = Description, priority = (int)Priority, isCompleted = IsCompleted });
+                return RedirectToPage("UpdateTask", new { guid, title = Title, description = Description, contributers = Contributers, priority = (int)Priority, isCompleted = IsCompleted });
             }
             else
             {

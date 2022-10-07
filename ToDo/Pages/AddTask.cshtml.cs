@@ -23,7 +23,7 @@ namespace ToDo.Pages
             _repo = repo;
         }
 
-        public IActionResult OnGet(string title, string description, int priority)
+        public IActionResult OnGet(string title, string description, int priority, string? contributers)
         {
             try
             {
@@ -32,7 +32,7 @@ namespace ToDo.Pages
                 Priority = (ToDoTask.Priority)priority;
                 if (ModelState.IsValid)
                 {
-                    _repo.AddTask(new(Title, Description, Priority), HttpContext.Session.GetString("UserID"));
+                    _repo.AddTask(new(Title, Description, Priority), contributers, HttpContext.Session.GetString("UserID"));
                     return RedirectToPage("Index");
                 }
                 else
